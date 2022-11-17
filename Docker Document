@@ -1,0 +1,155 @@
+DOCKER CONTAINERIZATION
+***********************
+
+IMAGE 
+***** 
+
+Docker Image is read-only immutable template that has an environment which will be used by the container.Images are unique,we can pull the images from the docker hub to our host machines.We have two types of Images.
+
+1.Base Images
+*************
+
+These are images which are present in docker hub for all the open source softwares.We can use these images by pulling into our machines or we can custimize them as per our requirement.
+
+
+2.Custom Images
+***************
+
+These Images are created by us for our requirements.We can create our own images by customizing the base images.We can push our own customized images to the docker hub.
+
+
+CONTAINER
+*********
+
+Docker container is a runtime instance of the docker image.Container is created when the docker run command implemented.We can create multiple containers by using one image.
+
+
+Docker Commands
+***************
+
+$ docker images or docker image ls => to list all the images.
+
+$ docker pull image_name or docker pull image_name:version => to pull the images from the registry.
+
+$ docker rmi image_name/image_id => to delete an image.
+
+$ docker run ubuntu => pull & run the image at a time.
+
+$ docker --name container1 ubuntu => can give the name for the container.
+
+$ docker ps => gives the list of running containers (processess).
+
+$ docker ps -a => to list all the containers list which are running,exited.
+
+$ docker stats container_id/name => it will give the live straem for running conatiners.
+
+$ docker run --name container1 -it ubuntu => it will run the conatiner by providng us the interactive terminal or attach mode we can call.
+
+# To come out of the terminal with running container,the shortcut is ctrl p q.
+
+# To comeout out of the terminal and to stop the container ,the command is exit.
+
+$ docker run --name conatiner1 -d ubuntu => detach mode , running the conatiner in the background without providing the terminal.
+
+$ docker attach container_id or name => to attach the terminal to the container.
+
+$ docker inspect ubuntu => used for trouble shooting.
+
+$ docker rm -f $(docker ps -aq) => to delete all containers at a time  including running,exited.
+
+$ docker inspect conatiner_id or name => to inspect the conatiner.
+
+$ docker start container_id or name => to start the container.
+
+$ docker stop container_id or name =>to stop the container.
+
+$ docker restart container_id or name =>to restart the container.
+
+$ docker exec container_id/name uname(command) => to use the terminal of container in the host machine
+
+$ docker exec -it container_id/name bash => it is used to access the terminal for server containers like nginx,httpd.
+
+
+PORT FORWARDING OR PORT BINDING
+*******************************
+
+$ docker run --name containername -d -p:8282:80 nginx => We have container port number 80,we can't change that.But We can't access the ip with the container port number or target port.We have to give the port number to the system to access the ip.So in this command we can give the port number which is not occupied with other system ports.Now we can able to access the ip.
+
+$ docker run --name containername -d -P => With this command ,the docker only assign the random system port for the container.
+
+
+DOCKER VOLUMES
+**************
+
+1.Named Volumes
+***************
+
+# We can create the volumes for the desired files or directories.We have the volumes directory in the host-machine which is var/lib/docker/volumes.
+
+Here we can create the volumes and when we creating the container, we can attach the volume by mapping for what files or directory we need to take 
+
+backup.
+
+
+$ docker run --name container -it -v myvol:/tmp ubuntu
+
+
+2.Bind Mount Volumes
+********************
+
+# We can create the volume for anywhere in the host machine and also we can integrate the git and docker by 
+
+using this Bind Mount volumes.
+
+For example if I want to deploy my front-end project which is in my github account.
+
+--> First clone the repository into the host machine.
+
+--> we need to create the container of the httpd image to deploy our project.
+
+--> /root/ecomm is my pwd of the host machine where I have my project files.
+
+--> /usr/local/apache2/htdocs is the path where I have to copy or mount my project files to run on the httpd.
+
+--> The command is below 
+
+
+
+$ docker run --name containername -d -v /root/ecomm:/usr/local/apache2/htdocs/ -P httpd
+
+
+
+# Now I can access my project in the browser.If I did changes to my code in the github repository.I need to pull 
+
+the changes to the host machine.that's it .The code in the htdocs directory will automatically updated.nothing 
+
+to do.No need to restart our container.Just pull is enough.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                          

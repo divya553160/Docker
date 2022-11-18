@@ -1,5 +1,5 @@
-DOCKER CONTAINERIZATION
-***********************
+                                                                 DOCKER CONTAINERIZATION
+                                                                 ***********************
 
 IMAGE 
 ***** 
@@ -124,6 +124,122 @@ $ docker run --name containername -d -v /root/ecomm:/usr/local/apache2/htdocs/ -
 the changes to the host machine.that's it .The code in the htdocs directory will automatically updated.nothing 
 
 to do.No need to restart our container.Just pull is enough.
+
+
+DOCKER FILE
+***********
+
+# Read-only file.It is a simple text document which has all the details to build an 
+
+image.
+
+# The name of the docker file should be dockerfile or Dockerfile.
+
+# Comment is added with #
+
+
+Keywords
+********
+
+FROM => From which base image we want to customize.
+
+RUN => which linux command to create directories, install packages or uninstall 
+
+packages.
+
+ENV => define variable and values to be used for the dockerfile.
+
+COPY => We can copy files from the host machines on the container.
+
+ADD => there is a zip file in the host machine, it will unzip the files to container's 
+
+tmp directory.
+
+CMD => any command we can give while running the container,it can overwritten the bash 
+
+command.
+
+$ docker run --name n1 -itd ubuntu sleep 10
+
+ENTRYPOINT => It is like CMD,but it will not overwritten,it appended to the existing 
+
+one.
+
+
+How to create a custom Image
+****************************
+
+Step1 => You have to create Dockerfiles directory and after create a docker file with the name of dockerfile/Dockerfile in the Dockerfiles directory.
+                                                                   
+                                                                   or 
+                                                         
+         You can clone the repository if you have a Dockerfile in that and to deploy that project according to configurations which dockerfile have.
+         
+         In one directory you can have only one dockerfile.
+         
+Step2 => According to your project requirements, you can add the configurations in the docker file by using the keywords as shown below :
+
+
+Sample Dockerfile of the Image
+******************************
+
+#First dockerfile
+-----------------
+
+FROM ubuntu
+
+RUN apt-get update
+
+RUN apt-get install git -y
+
+COPY compress.txt /tmp
+
+ADD compress.tar.gz /tmp
+
+
+#This is my second dockerfile
+-----------------------------
+
+FROM ubuntu
+RUN apt-get updateca
+RUN apt-get install nginx -y
+COPY index.html /var/www/html/
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off"]
+
+Step3 => Then you have to build that image in the directory where you have the dockerfile by using below commands and you can run the containers as usual.
+
+
+$ docker build -t image . => to build an custom image
+
+$ docker run --name c1 -it image1 or docker run -d -P image2 => to run the image
+
+$ docker history image => to see the history of the image,how it is created.
+
+$ docker image prune --all => to delete all the images at once.
+
+
+
+To upload a custom image to the docker-hub repository
+*****************************************************
+
+Step1 => First you have to give and add the registry name for the image you have created.
+
+
+$ docker tag image1 divya123456789/image1 => to add the registry name for my image
+
+Step2 => Log into the docker to push the Image
+
+$ docker login => to logged in to the docker
+
+Step3 => Push the Image with added tag,you can upload successfully.
+
+$ docker push divya123456789/image1 => to push my image to docker hub
+
+
+
+
+
 
 
 
